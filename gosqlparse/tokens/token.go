@@ -7,6 +7,7 @@ type TokenType int
 const (
 	Illegal TokenType = iota
 	Whitespace
+	Newline
 	Keyword
 	Identifier
 	Operator
@@ -21,6 +22,8 @@ func (t TokenType) String() string {
 		return "Illegal"
 	case Whitespace:
 		return "Whitespace"
+	case Newline:
+		return "Newline"
 	case Keyword:
 		return "Keyword"
 	case Identifier:

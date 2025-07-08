@@ -9,7 +9,9 @@ type Token struct {
 	Type         tokens.TokenType
 	Value        string
 	Parent       *TokenList
+
 	Group        *TokenList
+
 	IsKeyword    bool
 	IsGroup      bool
 	IsWhitespace bool
@@ -22,7 +24,9 @@ type TokenList struct {
 	Tokens []*Token
 }
 
+
 func (tl *TokenList) TokenPtr() *Token { return &tl.Token }
+
 
 func NewTokenList(toks []*Token) *TokenList {
 	tl := &TokenList{Tokens: toks}
@@ -42,6 +46,7 @@ type Statement struct {
 func NewStatement(toks []*Token) *Statement {
 	return &Statement{NewTokenList(toks)}
 }
+
 
 // Parenthesis represents tokens enclosed by parentheses.
 type Parenthesis struct{ *TokenList }
@@ -66,3 +71,4 @@ func (tl *TokenList) ReplaceRangeWithList(start, end int, grp *TokenList) {
 	grp.Token.Group = grp
 	tl.ReplaceRange(start, end, &grp.Token)
 }
+

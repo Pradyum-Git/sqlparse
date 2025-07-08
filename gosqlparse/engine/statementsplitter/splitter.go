@@ -1,7 +1,10 @@
 package statementsplitter
 
 import (
+
 	"strings"
+
+
 
 	"gosqlparse/sql"
 	"gosqlparse/tokens"
@@ -11,6 +14,7 @@ import (
 func Split(toks []*sql.Token) []*sql.Statement {
 	var stmts [][]*sql.Token
 	current := []*sql.Token{}
+
 	level := 0
 	for i, t := range toks {
 		current = append(current, t)
@@ -41,6 +45,16 @@ func Split(toks []*sql.Token) []*sql.Statement {
 		}
 	}
 	if len(current) > 0 && len(stmts) == 0 { // handle empty input
+
+	for _, t := range toks {
+		current = append(current, t)
+		if t.Type == tokens.Punctuation && t.Value == ";" {
+			stmts = append(stmts, current)
+			current = []*sql.Token{}
+		}
+	}
+	if len(current) > 0 {
+
 		stmts = append(stmts, current)
 	}
 	out := make([]*sql.Statement, 0, len(stmts))

@@ -2,7 +2,9 @@ package lexer
 
 import (
 	"regexp"
+
 	"strings"
+
 
 	"gosqlparse/sql"
 	"gosqlparse/tokens"
@@ -11,7 +13,9 @@ import (
 // Lexer implements a simple regex-based scanner.
 type Lexer struct {
 	patterns []lexEntry
+
 	keywords map[string]struct{}
+
 }
 
 type lexEntry struct {
@@ -22,6 +26,7 @@ type lexEntry struct {
 func New() *Lexer {
 	l := &Lexer{}
 	l.patterns = []lexEntry{
+
 		{regexp.MustCompile(`^\r?\n`), tokens.Newline},
 		{regexp.MustCompile(`^\s+`), tokens.Whitespace},
 		{regexp.MustCompile(`^[(),;]`), tokens.Punctuation},
@@ -38,6 +43,14 @@ func New() *Lexer {
 		"ON": {}, "JOIN": {}, "LEFT": {}, "RIGHT": {}, "FULL": {},
 		"OUTER": {}, "INNER": {}, "GROUP": {}, "BY": {}, "ORDER": {},
 	}
+
+		{regexp.MustCompile(`^\s+`), tokens.Whitespace},
+		{regexp.MustCompile(`^[(),;]`), tokens.Punctuation},
+		{regexp.MustCompile(`^'(?:''|[^'])*'`), tokens.String},
+		{regexp.MustCompile(`^\d+`), tokens.Number},
+		{regexp.MustCompile(`^[a-zA-Z_][\w]*`), tokens.Identifier},
+	}
+
 	return l
 }
 
@@ -53,6 +66,7 @@ func (l *Lexer) Tokenize(sqlText string) []*sql.Token {
 					Type:         p.ttype,
 					Value:        val,
 					IsWhitespace: p.ttype == tokens.Whitespace,
+
 					IsNewline:    p.ttype == tokens.Newline,
 					IsKeyword:    false,
 				}
@@ -63,6 +77,10 @@ func (l *Lexer) Tokenize(sqlText string) []*sql.Token {
 						tok.Type = tokens.Keyword
 						tok.IsKeyword = true
 					}
+				}
+
+
+					IsKeyword:    false,
 				}
 
 				tokensOut = append(tokensOut, tok)

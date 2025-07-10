@@ -1,6 +1,13 @@
 package engine
 
-import "gosqlparse/sql"
+
+import (
+	"gosqlparse/lexer"
+	"gosqlparse/sql"
+)
+
+
+
 
 // Filter defines an interface for token filters.
 type Filter interface {
@@ -15,8 +22,19 @@ type FilterStack struct {
 // New returns a new FilterStack.
 func New() *FilterStack { return &FilterStack{} }
 
-// Run executes the filter stack on the given SQL string.
+
+// Run tokenizes the input and returns a single Statement for now. Future
+// implementations will add statement splitting, filters and grouping similar
+// to the Python library.
 func (fs *FilterStack) Run(input string) []*sql.Statement {
-	// TODO: tokenizer and grouping will be implemented later.
-	return nil
+	toks := lexer.Tokenize(input)
+
+	// apply preprocess filters if any
+	for _, f := range fs.preprocess {
+		toks = f.Process(toks)
+	}
+
+	stmt := &sql.Statement{TokenList: sql.TokenList{Tokens: toks}}
+	return []*sql.Statement{stmt}
+
 }

@@ -4,11 +4,12 @@ package tokens
 type TokenType int
 
 const (
-	Illegal TokenType = iota
-	Keyword
-	Identifier
-	Literal
-	Operator
+	Illegal    TokenType = iota
+	Keyword              // e.g. SELECT, UPDATE
+	Identifier           // table or column names
+	Number               // numeric literal
+	String               // quoted string literal
+	Operator             // + - = etc
 	Comment
 	Whitespace
 	Punctuation

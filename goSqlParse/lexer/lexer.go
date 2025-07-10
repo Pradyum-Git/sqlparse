@@ -4,10 +4,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode/utf8"
-
-	"gosqlparse/sql"
-	"gosqlparse/tokens"
 )
+
 
 var (
 	whitespaceRe  = regexp.MustCompile(`^\s+`)
@@ -81,4 +79,5 @@ func Tokenize(input string) []sql.Token {
 	}
 
 	return tokensOut
+
 }

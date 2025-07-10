@@ -24,7 +24,7 @@ func New() *Lexer {
 	l.patterns = []lexEntry{
 		{regexp.MustCompile(`^\r?\n`), tokens.Newline},
 		{regexp.MustCompile(`^\s+`), tokens.Whitespace},
-		{regexp.MustCompile(`^[(),;]`), tokens.Punctuation},
+		{regexp.MustCompile(`^[(),.;]`), tokens.Punctuation},
 		{regexp.MustCompile(`^'(?:''|[^'])*'`), tokens.String},
 		{regexp.MustCompile(`^(?:<=|>=|<>|!=|=|<|>)`), tokens.Operator},
 		{regexp.MustCompile(`^\d+`), tokens.Number},

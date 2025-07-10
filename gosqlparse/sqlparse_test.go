@@ -6,7 +6,7 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	input := "SELECT a, b FROM t WHERE c = 1;"
+	input := "SELECT a, b FROM t WHERE (c = 1);"
 	stmts := Parse(input, true)
 	for _, stmt := range stmts {
 		fmt.Println("Statement:")

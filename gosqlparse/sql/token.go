@@ -43,6 +43,24 @@ func NewStatement(toks []*Token) *Statement {
 	return &Statement{NewTokenList(toks)}
 }
 
+// Identifier represents a dotted identifier or alias.
+type Identifier struct{ *TokenList }
+
+func NewIdentifier(toks []*Token) *Identifier {
+	id := &Identifier{NewTokenList(toks)}
+	id.Token.Group = id.TokenList
+	return id
+}
+
+// Function represents a function call with arguments.
+type Function struct{ *TokenList }
+
+func NewFunction(toks []*Token) *Function {
+	f := &Function{NewTokenList(toks)}
+	f.Token.Group = f.TokenList
+	return f
+}
+
 // Parenthesis represents tokens enclosed by parentheses.
 type Parenthesis struct{ *TokenList }
 
